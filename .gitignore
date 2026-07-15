@@ -70,11 +70,17 @@ ultralytics/
 
 # ── 日志文件 ───────────────────────────────────────
 *.log
-logs/
+backend/logs/*.log
+backend/logs/*.log.*
 *.log.*
 
 # ── 数据文件 ────────────────────────────────────────
-backend/datasets/
+datasets/
+*.csv
+*.xlsx
+*.parquet
+
+myprojectdata/
 *.csv
 *.xlsx
 *.parquet

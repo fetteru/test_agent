@@ -323,6 +323,57 @@ class ModelVersionCreate(BaseModel):
         protected_namespaces = ()  # 新增此行关闭model_命名空间保护
 
 
+# --- 模型评估与导出 ---
+
+class ModelValidateRequest(BaseModel):
+    """模型评估请求"""
+    split: str = Field(default="val", description="评估数据集划分: val / test / train")
+    conf: float = Field(default=0.001, description="置信度阈值")
+    iou: float = Field(default=0.6, description="NMS IoU 阈值")
+
+
+class ModelExportRequest(BaseModel):
+    """模型导出请求"""
+    version: Optional[str] = Field(None, description="版本号（如 v1.0.0，不传则自动生成）")
+    description: Optional[str] = Field(None, description="版本描述/变更说明")
+    set_default: bool = Field(default=False, description="是否设为该场景的默认模型")
+    upload_minio: bool = Field(default=True, description="是否上传到 MinIO")
+
+    class Config:
+        protected_namespaces = ()
+
+
+class ModelExportResponse(BaseModel):
+    """模型导出响应"""
+    model_version_id: int
+    version: str
+    model_name: str
+    model_path: str
+    export_dir: str
+    minio_url: Optional[str] = None
+    file_size: Optional[int] = None
+    evaluation: dict
+    is_default: bool
+    message: str
+
+    class Config:
+        protected_namespaces = ()
+
+
+class ModelValidateResponse(BaseModel):
+    """模型评估响应"""
+    task_id: int
+    task_uuid: str
+    split: str
+    overall: dict
+    per_class: dict
+    model_version_id: Optional[int] = None
+    model_version: Optional[str] = None
+
+    class Config:
+        protected_namespaces = ()
+
+
 # ══════════════════════════════════════════════════════════════
 # 四、智能体对话
 # ══════════════════════════════════════════════════════════════

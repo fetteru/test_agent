@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = True
     LOG_LEVEL: str = "INFO"
+    LOG_DIR: str = "logs" # ⽇志⽬录（相对于 backend/）
+    LOG_MAX_BYTES: int = 10 * 1024 * 1024 # 单⽂件最⼤ 10MB
+    LOG_BACKUP_COUNT: int = 5 # 保留 5 份历史⽇志
 
     # —— 数据库配置 ——
     DB_HOST: str = "localhost"
@@ -46,6 +49,10 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str = "your-super-secret-key-change-in-production"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+
+    # —— 训练配置 ——
+    TRAIN_OUTPUT_DIR: str = "runs/train"  # 训练输出目录（模型权重、日志等）
+    DATASET_BASE_DIR: str = "datasets"    # 数据集根目录
 
     # —— CORS 配置 ——
     ALLOWED_ORIGINS: str = (
